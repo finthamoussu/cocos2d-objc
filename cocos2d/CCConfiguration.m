@@ -217,7 +217,8 @@ static char * glExtensions;
 
     }
 #elif __CC_PLATFORM_IOS
-	
+
+#if !TARGET_OS_TV
 	if( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 	{
 		return ([UIScreen mainScreen].scale == 2) ? CCDeviceiPadRetinaDisplay : CCDeviceiPad;
@@ -237,6 +238,11 @@ static char * glExtensions;
 			return ([UIScreen mainScreen].scale == 2 ? CCDeviceiPhone6 : CCDeviceiPhone6Plus);
 		}
 	}
+#else // TARGET_OS_TV
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV) {
+        return CCDeviceiPad;
+    }
+#endif // TARGET_OS_TV
 	
 #elif __CC_PLATFORM_MAC
     CCDirectorMac *dir = (CCDirectorMac *)[CCDirectorMac sharedDirector];

@@ -56,6 +56,7 @@ const CGSize FIXED_SIZE = {568, 384};
 @synthesize appDelegate = _appDelegate;
 @synthesize screenOrientation = _screenOrientation;
 
+#if !TARGET_OS_TV
 // The available orientations should be defined in the Info.plist file.
 // And in iOS 6+ only, you can override it in the Root View controller in the "supportedInterfaceOrientations" method.
 // Only valid for iOS 6+. NOT VALID for iOS 4 / 5.
@@ -92,6 +93,7 @@ const CGSize FIXED_SIZE = {568, 384};
         return UIInterfaceOrientationIsLandscape(interfaceOrientation);
     }
 }
+#endif // !TARGET_OS_TV
 
 // Projection delegate is only used if the fixed resolution mode is enabled
 -(GLKMatrix4)updateProjection
@@ -123,10 +125,12 @@ const CGSize FIXED_SIZE = {568, 384};
 
 @synthesize window=window_, navController=navController_;
 
+#if !TARGET_OS_TV
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
 	return UIInterfaceOrientationMaskAll;
 }
+#endif // !TARGET_OS_TV
 
 - (CCScene*) startScene
 {
@@ -186,8 +190,10 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 	}
 	
 	CCDirectorIOS* director = (CCDirectorIOS*) [CCDirector sharedDirector];
-	
+
+#if !TARGET_OS_TV
 	director.wantsFullScreenLayout = YES;
+#endif
 	
 	// Display FSP and SPF
 	[director setDisplayStats:[config[CCSetupShowDebugStats] boolValue]];
@@ -276,7 +282,7 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 // iOS8 hack around orientation bug
 -(void)forceOrientation
 {
-#if __CC_PLATFORM_IOS && defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+#if __CC_PLATFORM_IOS && !TARGET_OS_TV && defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
     if([navController_.screenOrientation isEqual:CCScreenOrientationAll])
     {
         [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationUnknown];

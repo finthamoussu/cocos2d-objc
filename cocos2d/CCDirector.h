@@ -61,7 +61,12 @@ typedef NS_ENUM(NSUInteger, CCDirectorProjection) {
 @class CCTransition;
 
 #if __CC_PLATFORM_IOS
+#if TARGET_OS_TV
+#import <GameKit/GameKit.h>
+#define CC_VIEWCONTROLLER GCEventViewController
+#else
 #define CC_VIEWCONTROLLER UIViewController
+#endif
 #define CC_VIEW UIView
 
 #elif __CC_PLATFORM_MAC

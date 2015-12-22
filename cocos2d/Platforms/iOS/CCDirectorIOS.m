@@ -191,6 +191,7 @@
 		}
 }
 
+#if !TARGET_OS_TV
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -207,6 +208,7 @@
 //	if( [_delegate respondsToSelector:_cmd] )
 //		[_delegate willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 //}
+#endif // !TARGET_OS_TV
 
 -(void) startAnimationIfPossible
 {

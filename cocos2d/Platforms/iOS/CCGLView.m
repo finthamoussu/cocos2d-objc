@@ -216,7 +216,7 @@ extern EAGLContext *CCRenderDispatchSetupGL(EAGLRenderingAPI api, EAGLSharegroup
 		_pixelFormat = format;
 		_depthFormat = depth;
 		_multiSampling = sampling;
-		_preserveBackbuffer = retained;
+		_preserveBackbuffer = retained; 
 		_msaaSamples = nSamples;
 		
 		// Default to the screen's native scale.
@@ -233,7 +233,9 @@ extern EAGLContext *CCRenderDispatchSetupGL(EAGLRenderingAPI api, EAGLSharegroup
         
         /** Multiple touch default enabled
          */
+#if !TARGET_OS_TV
         self.multipleTouchEnabled = YES;
+#endif // !TARGET_OS_TV
 
         _touchEvent = [[CCTouchEvent alloc] init];
 	}
@@ -481,6 +483,7 @@ extern EAGLContext *CCRenderDispatchSetupGL(EAGLRenderingAPI api, EAGLSharegroup
 
 #pragma mark CCGLView - Touch Delegate
 
+#if !TARGET_OS_TV
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     _touchEvent.timestamp = event.timestamp;
@@ -509,6 +512,7 @@ extern EAGLContext *CCRenderDispatchSetupGL(EAGLRenderingAPI api, EAGLSharegroup
     [_touchEvent updateTouchesCancelled:touches];
     [[CCDirector sharedDirector].responderManager touchesCancelled:_touchEvent.currentTouches withEvent:_touchEvent];
 }
+#endif
  
 @end
 
