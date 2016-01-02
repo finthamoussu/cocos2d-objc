@@ -242,7 +242,8 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
 - (void)setupFlexibleScreenMode:(NSDictionary *)config director:(CCDirectorIOS *)director
 {
     // Setup tablet scaling if it was requested.
-    if(	UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad &&	[config[CCSetupTabletScale2X] boolValue] )
+    if(	(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ||
+       UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV) &&	[config[CCSetupTabletScale2X] boolValue] )
     {
         // Set the director to use 2 points per pixel.
         director.contentScaleFactor *= 2.0;
