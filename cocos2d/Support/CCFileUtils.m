@@ -39,9 +39,11 @@ NSString * const CCFileUtilsSuffixiPhone = @"iphone";
 NSString * const CCFileUtilsSuffixiPhoneHD = @"iphonehd";
 NSString * const CCFileUtilsSuffixiPhone5 = @"iphone5";
 NSString * const CCFileUtilsSuffixiPhone5HD = @"iphone5hd";
+NSString * const CCFileUtilsSuffixiPhoneRetinaHD = @"iphoneretinahd";
 NSString * const CCFileUtilsSuffixMac = @"mac";
 NSString * const CCFileUtilsSuffixMacHD = @"machd";
 NSString * const CCFileUtilsSuffix2x = @"2x";
+NSString * const CCFileUtilsSuffixAppleTV = @"iphoneappletv";
 
 NSString * const kCCFileUtilsDefaultSearchPath = @"";
 
@@ -163,6 +165,7 @@ static CCFileUtils *fileUtils = nil;
 						 @"-hd", CCFileUtilsSuffixiPhoneHD,
 						 @"-iphone5", CCFileUtilsSuffixiPhone5,
 						 @"-iphone5hd", CCFileUtilsSuffixiPhone5HD,
+                         @"-retinahd", CCFileUtilsSuffixiPhoneRetinaHD,
 						 @"", CCFileUtilsSuffixDefault,
 						 nil];
 
@@ -173,8 +176,13 @@ static CCFileUtils *fileUtils = nil;
 							@"resources-iphonehd", CCFileUtilsSuffixiPhoneHD,
 							@"resources-iphone5", CCFileUtilsSuffixiPhone5,
 							@"resources-iphone5hd", CCFileUtilsSuffixiPhone5HD,
+                            @"resources-iphoneretinahd", CCFileUtilsSuffixiPhoneRetinaHD,
 							@"", CCFileUtilsSuffixDefault,
 							nil];
+#if TARGET_OS_TV
+        _suffixesDict[CCFileUtilsSuffixAppleTV] = @"-appletv";
+        _directoriesDict[CCFileUtilsSuffixAppleTV] = @"resources-appletv";
+#endif
 
 #elif __CC_PLATFORM_MAC
 		_suffixesDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
@@ -236,10 +244,17 @@ static CCFileUtils *fileUtils = nil;
 		}
 	}
 #if __CC_PLATFORM_IOS
+    if (device == CCDeviceAppleTV) {
+        [_searchResolutionsOrder addObject:CCFileUtilsSuffixAppleTV];
+        [_searchResolutionsOrder addObject:CCFileUtilsSuffixiPhoneRetinaHD];
+        [_searchResolutionsOrder addObject:CCFileUtilsSuffixiPadHD];
+        [_searchResolutionsOrder addObject:CCFileUtilsSuffixiPad];
+    }
 	else if (device == CCDeviceiPhone6Plus)
 	{
 		// Terrible, terrible iPhone 6+ hack.
 		[self setiPadContentScaleFactor:2.0];
+        [_searchResolutionsOrder addObject:CCFileUtilsSuffixiPhoneRetinaHD];
 		[_searchResolutionsOrder addObject:CCFileUtilsSuffixiPadHD];
 		
 		[_searchResolutionsOrder addObject:CCFileUtilsSuffixiPhone5HD];
@@ -401,6 +416,10 @@ static CCFileUtils *fileUtils = nil;
 			
 #if __CC_PLATFORM_IOS || __CC_PLATFORM_ANDROID
 			// XXX Add this in a Dictionary
+#if TARGET_OS_TV
+            if( [key isEqualToString:CCFileUtilsSuffixAppleTV] )
+                return 1.0;
+#endif
 			if( [key isEqualToString:CCFileUtilsSuffixiPad] )
 				return 1.0*_iPadContentScaleFactor;
 			if( [key isEqualToString:CCFileUtilsSuffixiPadHD] )
@@ -413,6 +432,8 @@ static CCFileUtils *fileUtils = nil;
 				return 1.0*_iPhoneContentScaleFactor;
 			if( [key isEqualToString:CCFileUtilsSuffixiPhone5HD] )
 				return 2.0*_iPhoneContentScaleFactor;
+            if( [key isEqualToString:CCFileUtilsSuffixiPhoneRetinaHD] )
+                return 3.0*_iPhoneContentScaleFactor;
 			if( [key isEqualToString:CCFileUtilsSuffixDefault] )
 				return 1.0;
 #elif __CC_PLATFORM_MAC

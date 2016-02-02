@@ -36,8 +36,10 @@ extern NSString * const CCFileUtilsSuffixiPhone;
 extern NSString * const CCFileUtilsSuffixiPhoneHD;
 extern NSString * const CCFileUtilsSuffixiPhone5;
 extern NSString * const CCFileUtilsSuffixiPhone5HD;
+extern NSString * const CCFileUtilsSuffixiPhoneRetinaHD;
 extern NSString * const CCFileUtilsSuffixMac;
 extern NSString * const CCFileUtilsSuffixMacHD;
+extern NSString * const CCFileUtilsSuffixAppleTV;
 
 extern NSString * const kCCFileUtilsDefaultSearchPath;
 

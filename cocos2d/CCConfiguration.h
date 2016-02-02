@@ -107,6 +107,8 @@ typedef NS_ENUM(NSUInteger, CCDevice) {
 
 	CCDeviceMac,
 	CCDeviceMacRetinaDisplay,
+    
+    CCDeviceAppleTV,
 };
 
 typedef NS_ENUM(NSUInteger, CCGraphicsAPI) {

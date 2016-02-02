@@ -240,7 +240,7 @@ static char * glExtensions;
 	}
 #else // TARGET_OS_TV
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV) {
-        return CCDeviceiPadRetinaDisplay;
+        return CCDeviceAppleTV;
     }
 #endif // TARGET_OS_TV
 	
