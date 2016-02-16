@@ -207,12 +207,7 @@
 }
 
 - (CGFloat)deviceContentScaleFactor {
-    if (self.view.window) {
-        NSRect backingBounds = [self.view.window convertRectToBacking:self.view.bounds];
-        return backingBounds.size.width / self.view.bounds.size.width;
-    }
-    
-    return 1.0;
+    return [NSScreen mainScreen].backingScaleFactor;
 }
 
 -(int) resizeMode
